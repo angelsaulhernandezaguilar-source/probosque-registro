@@ -1,0 +1,162 @@
+/* Bandeja de trabajo: lista a la izquierda, expediente a la derecha.
+   La comparten Recepción de solicitudes y Emisión de dictámenes. */
+.ps-pagina {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 40px 24px 0;
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 0 24px;
+  align-items: start;
+}
+
+.ps-encabezado {
+  grid-column: 1 / -1;
+}
+
+.ps-titulo {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.ps-entrada {
+  max-width: 62ch;
+  margin: 10px 0 28px;
+  color: var(--tinta-suave);
+}
+
+/* Lista de solicitudes */
+.ps-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ps-fila {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  background: var(--superficie);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ps-fila:hover {
+  border-color: var(--pino);
+}
+
+.ps-fila--activa {
+  border-color: var(--pino);
+  background: var(--musgo);
+  box-shadow: inset 5px 0 0 var(--pino);
+}
+
+.ps-folio {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+.ps-nombre {
+  display: block;
+  font-weight: 700;
+}
+
+.ps-accion {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: var(--pino);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ps-lista-vacia {
+  padding: 24px 18px;
+  border: 1.5px dashed #9fb0a3;
+  border-radius: 10px;
+  color: var(--tinta-suave);
+}
+
+/* Expediente */
+.ps-detalle {
+  display: flex;
+  flex-direction: column;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-panel);
+  overflow: hidden;
+}
+
+.ps-detalle-cuerpo {
+  min-height: 300px;
+  padding: 28px 32px;
+}
+
+.ps-detalle-titulo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 20px;
+}
+
+.ps-datos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 28px;
+  margin: 0;
+}
+
+.ps-datos dt {
+  color: var(--tinta-suave);
+}
+
+.ps-datos dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.ps-documentos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ps-documentos li {
+  padding: 10px 0;
+  border-top: 1px solid var(--linea);
+  overflow-wrap: anywhere;
+}
+
+.ps-documentos li:last-child {
+  border-bottom: 1px solid var(--linea);
+}
+
+.ps-vacio {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+.ps-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 32px;
+  border-top: 1px solid var(--linea);
+  background: #f6f8f5;
+}
+
+@media (max-width: 820px) {
+  .ps-pagina { grid-template-columns: 1fr; padding: 28px 16px 0; gap: 20px 0; }
+  .ps-entrada { margin-bottom: 8px; }
+  .ps-detalle-cuerpo { padding: 20px; min-height: 0; }
+  .ps-acciones { flex-direction: column-reverse; padding: 16px 20px; }
+  .ps-datos { grid-template-columns: 1fr; gap: 0; }
+  .ps-datos dd { margin-bottom: 10px; }
+}
