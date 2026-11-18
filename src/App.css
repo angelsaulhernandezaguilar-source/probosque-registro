@@ -1,0 +1,653 @@
+/* Sistema visual de la app.
+   Color: verde pino sobre salvia pálida; ámbar resina para lo pendiente.
+   Tipografía: Bricolage Grotesque en títulos, Public Sans en texto
+   (sobria y muy legible, pensada para trámites de gobierno). */
+:root {
+  --tinta: #14231b;
+  --tinta-suave: #4d5f55;
+  --pino: #1c4a37;
+  --pino-hondo: #123326;
+  --salvia: #edf1ea;
+  --musgo: #dce8d8;
+  --superficie: #ffffff;
+  --linea: #cfd9ce;
+  --ambar: #8f5a0c;
+  --ambar-fondo: #fbf0d9;
+  --rojo: #a3301f;
+  --rojo-fondo: #fbe9e5;
+
+  --titulos: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --texto: "Public Sans", "Segoe UI", system-ui, sans-serif;
+
+  --radio-control: 8px;
+  --radio-panel: 14px;
+  --ancho: 1120px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--salvia);
+  color: var(--tinta);
+  font-family: var(--texto);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--titulos);
+  line-height: 1.15;
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ambar);
+  outline-offset: 2px;
+}
+
+/* ---------- Barra superior ---------- */
+.app-barra {
+  background: var(--pino-hondo);
+  color: #fff;
+}
+
+.app-barra-interior {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 32px;
+}
+
+.app-marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.app-marca svg {
+  flex: none;
+}
+
+.app-marca strong {
+  display: block;
+  font-family: var(--titulos);
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.app-marca span {
+  font-size: 0.8rem;
+  color: #bcd0c2;
+}
+
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.app-nav a {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 14px;
+  border-radius: var(--radio-control);
+  color: #fff;
+  text-decoration: none;
+  line-height: 1.25;
+}
+
+.app-nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.app-nav a.active {
+  background: var(--salvia);
+  color: var(--pino-hondo);
+}
+
+.app-nav small {
+  font-size: 0.75rem;
+  color: #bcd0c2;
+}
+
+.app-nav a.active small {
+  color: var(--tinta-suave);
+}
+
+.app-nav-texto {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.app-contador {
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #f0c260;
+  color: var(--pino-hondo);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.app-principal {
+  min-height: 72vh;
+  padding-bottom: 56px;
+}
+
+/* ---------- Contenedor y encabezado de página ---------- */
+.app-pagina {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 40px 24px 0;
+}
+
+.app-pagina--angosta {
+  max-width: 820px;
+}
+
+.app-titulo {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.app-entrada {
+  max-width: 62ch;
+  margin: 10px 0 28px;
+  color: var(--tinta-suave);
+}
+
+.app-subtitulo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 28px 0 12px;
+}
+
+/* ---------- Banda de inicio ---------- */
+.inicio-banda {
+  position: relative;
+  overflow: hidden;
+  background: var(--pino);
+  color: #fff;
+}
+
+.inicio-banda-interior {
+  position: relative;
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 56px 24px 64px;
+}
+
+.inicio-banda h1 {
+  max-width: 16ch;
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.inicio-banda p {
+  max-width: 52ch;
+  margin: 16px 0 0;
+  color: #d5e3d8;
+  font-size: 1.15rem;
+}
+
+/* Curvas de nivel: el predio y su polígono son el centro del trámite */
+.inicio-curvas {
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  width: 560px;
+  height: 560px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* ---------- Tarjetas de convocatoria ---------- */
+.convocatoria {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 40px;
+  padding: 28px 32px;
+  margin-bottom: 16px;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-panel);
+}
+
+.convocatoria h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.convocatoria-texto {
+  grid-column: 1;
+  max-width: 68ch;
+  margin: 4px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.convocatoria-meta {
+  grid-column: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+  overflow-wrap: anywhere;
+}
+
+.convocatoria-lado {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  min-width: 210px;
+  text-align: right;
+}
+
+.convocatoria-plazo {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--tinta-suave);
+}
+
+.convocatoria-plazo strong {
+  display: block;
+  font-family: var(--titulos);
+  font-size: 1.2rem;
+  color: var(--tinta);
+}
+
+/* ---------- Píldoras de estado ---------- */
+.app-etiqueta {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--musgo);
+  color: var(--pino-hondo);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.app-etiqueta--proxima,
+.app-etiqueta--alerta {
+  background: var(--ambar-fondo);
+  color: var(--ambar);
+}
+
+.app-etiqueta--cerrada {
+  background: #e6e9e6;
+  color: var(--tinta-suave);
+}
+
+.app-etiqueta--negativa {
+  background: var(--rojo-fondo);
+  color: var(--rojo);
+}
+
+/* ---------- Botones (compartidos por todas las vistas) ---------- */
+.app-boton,
+.pc-boton,
+.rc-boton,
+.ps-boton {
+  display: inline-block;
+  padding: 11px 22px;
+  border: 1.5px solid var(--pino);
+  border-radius: var(--radio-control);
+  background: transparent;
+  color: var(--pino);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.app-boton:hover,
+.pc-boton:hover,
+.rc-boton:hover,
+.ps-boton:hover {
+  background: var(--musgo);
+}
+
+.app-boton--primario,
+.pc-boton--primario,
+.rc-boton--primario,
+.ps-boton--primario {
+  background: var(--pino);
+  color: #fff;
+}
+
+.app-boton--primario:hover,
+.pc-boton--primario:hover,
+.rc-boton--primario:hover,
+.ps-boton--primario:hover {
+  background: var(--pino-hondo);
+}
+
+.app-boton:disabled,
+.pc-boton:disabled,
+.rc-boton:disabled,
+.ps-boton:disabled {
+  border-color: var(--linea);
+  background: #e6e9e6;
+  color: #7c8a81;
+  cursor: not-allowed;
+}
+
+.app-enlace {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--pino);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.app-accesos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* ---------- Campos de formulario (compartidos) ---------- */
+.pc-campo,
+.rc-campo,
+.app-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.pc-campo label,
+.rc-campo label,
+.app-campo label {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.pc-campo input,
+.pc-campo select,
+.rc-campo input,
+.rc-campo select,
+.app-campo input,
+.pc-texto textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #9fb0a3;
+  border-radius: var(--radio-control);
+  background: var(--superficie);
+}
+
+.pc-campo input:hover,
+.pc-campo select:hover,
+.rc-campo input:hover,
+.rc-campo select:hover,
+.app-campo input:hover,
+.pc-texto textarea:hover {
+  border-color: var(--pino);
+}
+
+.rc-campo input[aria-invalid="true"] {
+  border-color: var(--rojo);
+}
+
+/* ---------- Paneles y avisos ---------- */
+.app-panel {
+  padding: 28px 32px;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-panel);
+}
+
+.app-vacio {
+  padding: 32px;
+  border: 1.5px dashed #9fb0a3;
+  border-radius: var(--radio-panel);
+  color: var(--tinta-suave);
+}
+
+.app-aviso {
+  margin: 0 0 20px;
+  padding: 14px 18px;
+  border-left: 5px solid var(--pino);
+  border-radius: var(--radio-control);
+  background: var(--musgo);
+}
+
+.app-aviso--suelto {
+  max-width: calc(var(--ancho) - 48px);
+  margin: 24px auto -16px;
+}
+
+.app-aviso--alerta {
+  border-left-color: #c98a1b;
+  background: var(--ambar-fondo);
+  margin-top: 24px;
+}
+
+.app-aviso--alerta p {
+  margin: 0 0 14px;
+}
+
+/* ---------- Consulta de estatus ---------- */
+.app-busqueda {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.app-busqueda .app-campo {
+  flex: 1;
+}
+
+.estatus-encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.estatus-encabezado h2 {
+  font-size: 1.6rem;
+}
+
+.estatus-folio {
+  margin: 0;
+  color: var(--tinta-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Ruta del trámite: los pasos sí son una secuencia, por eso van numerados */
+.ruta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 28px 0 8px;
+  padding: 0;
+  list-style: none;
+  counter-reset: paso;
+}
+
+.ruta li {
+  position: relative;
+  padding: 44px 12px 0 0;
+  counter-increment: paso;
+  font-size: 0.95rem;
+  color: var(--tinta-suave);
+}
+
+.ruta li::before {
+  content: counter(paso);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+  border: 2px solid #9fb0a3;
+  border-radius: 50%;
+  background: var(--superficie);
+  font-family: var(--titulos);
+  font-weight: 700;
+  line-height: 28px;
+  text-align: center;
+}
+
+.ruta li::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 32px;
+  right: 0;
+  height: 2px;
+  background: var(--linea);
+}
+
+.ruta li:last-child::after {
+  display: none;
+}
+
+.ruta strong {
+  display: block;
+  color: var(--tinta);
+}
+
+.ruta .ruta--hecho::before {
+  content: "✓";
+  border-color: var(--pino);
+  background: var(--pino);
+  color: #fff;
+}
+
+.ruta .ruta--hecho::after {
+  background: var(--pino);
+}
+
+.ruta .ruta--actual::before {
+  border-color: var(--pino);
+  box-shadow: 0 0 0 4px var(--musgo);
+  color: var(--pino);
+}
+
+.ruta .ruta--alerta::before {
+  content: "!";
+  border-color: #c98a1b;
+  background: var(--ambar-fondo);
+  box-shadow: 0 0 0 4px var(--ambar-fondo);
+  color: var(--ambar);
+}
+
+.ruta .ruta--negativo::before {
+  content: "✕";
+  border-color: var(--rojo);
+  background: var(--rojo);
+  color: #fff;
+}
+
+.app-datos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 28px;
+  margin: 0;
+}
+
+.app-datos dt {
+  color: var(--tinta-suave);
+}
+
+.app-datos dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.app-historial {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-historial li {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  padding: 10px 0;
+  border-top: 1px solid var(--linea);
+}
+
+.app-historial time {
+  color: var(--tinta-suave);
+  white-space: nowrap;
+}
+
+/* ---------- Pie ---------- */
+.app-pie {
+  border-top: 1px solid var(--linea);
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+}
+
+.app-pie-interior {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+}
+
+@media (max-width: 720px) {
+  .app-barra-interior { padding: 10px 16px; }
+  .app-nav a { padding: 6px 10px; }
+  .app-pagina { padding: 28px 16px 0; }
+  .inicio-banda-interior { padding: 40px 16px 44px; }
+  .inicio-curvas { opacity: 0.5; right: -220px; }
+  .convocatoria { grid-template-columns: 1fr; padding: 20px; }
+  .convocatoria-lado { grid-column: 1; grid-row: auto; align-items: flex-start; text-align: left; margin-top: 12px; }
+  .app-panel { padding: 20px; }
+  .app-busqueda { flex-direction: column; align-items: stretch; }
+  .app-datos { grid-template-columns: 1fr; gap: 0; }
+  .app-datos dd { margin-bottom: 10px; }
+  .app-historial li { grid-template-columns: 1fr; }
+  .app-aviso--suelto { margin-inline: 16px; }
+
+  /* La ruta pasa a vertical */
+  .ruta { grid-template-columns: 1fr; gap: 0; }
+  .ruta li { padding: 4px 0 22px 46px; min-height: 54px; }
+  .ruta li::after { top: 32px; bottom: 0; left: 15px; right: auto; width: 2px; height: auto; }
+}
