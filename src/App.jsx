@@ -2,8 +2,10 @@ import { useState } from "react";
 import { HashRouter, Link, NavLink, Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { ESTADOS, nombreConcepto, nombrePrograma } from "./datos/catalogos";
 import { ProveedorAlmacen, useAlmacen } from "./estado/Almacen";
+import { borrarArchivos, guardarArchivos, leerArchivo } from "./estado/archivos";
 import Convocatorias from "./paginas/Convocatorias";
 import Estatus from "./paginas/Estatus";
+import { pdfDemostracion } from "./utilidades/pdfDemo";
 import { calcularApoyo, estadoConvocatoria, fechaLarga, pesos } from "./utilidades/reglas";
 import EmisionDictamenes from "./vistas/EmisionDictamenes";
 import PublicacionConvocatorias from "./vistas/PublicacionConvocatorias";
@@ -62,6 +64,8 @@ function RutaRegistro() {
           documentos: formData.getAll("documentos").map((a) => a.name),
           validacionSig: formData.get("validacionSig").name,
         });
+        // Los archivos se guardan aparte para que la Unidad jurídica pueda previsualizarlos
+        guardarArchivos(solicitud.id, [...formData.getAll("documentos"), formData.get("validacionSig")]).catch(() => {});
         navegar(`/estatus?folio=${solicitud.folio}&nuevo=1`);
       }}
     />
@@ -128,11 +132,22 @@ function RutaDictamenes() {
 
   const folioDe = (id) => solicitudes.find((s) => s.id === id)?.folio;
 
+  // Archivo que subió el beneficiario; las solicitudes de ejemplo no lo tienen
+  // y se sustituye por un PDF de demostración.
+  const abrirDocumento = async (id, nombre) => {
+    const blob = await leerArchivo(id, nombre).catch(() => null);
+    if (blob) return { blob, demostracion: false };
+    if (!/\.pdf$/i.test(nombre)) return null;
+    const s = solicitudes.find((x) => x.id === id);
+    return { blob: pdfDemostracion({ nombre, folio: s.folio, solicitante: nombreCompleto(s) }), demostracion: true };
+  };
+
   return (
     <>
       {aviso && <p className="app-aviso app-aviso--suelto" role="status">{aviso}</p>}
       <EmisionDictamenes
         solicitudes={enDictamen}
+        onAbrirDocumento={abrirDocumento}
         onFavorable={(id) => {
           dictaminar(id, true);
           setAviso(`${folioDe(id)}: dictamen jurídico favorable.`);
@@ -195,7 +210,10 @@ function Pie() {
         type="button"
         className="app-enlace"
         onClick={() => {
-          if (window.confirm("¿Borrar los cambios y volver a los datos de demostración?")) reiniciar();
+          if (window.confirm("¿Borrar los cambios y volver a los datos de demostración?")) {
+            reiniciar();
+            borrarArchivos().catch(() => {});
+          }
         }}
       >
         Restablecer datos de demostración
