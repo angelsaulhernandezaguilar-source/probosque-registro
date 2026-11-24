@@ -34,7 +34,8 @@ Cubre el inicio del flujo de la convocatoria, de la publicación al dictamen jur
 2. El **beneficiario** se registra, carga sus documentos y el polígono de su predio, y recibe un folio.
 3. La **delegación regional** coteja la documentación. Si la acepta, pasa a dictamen jurídico.
    Si la rechaza, el beneficiario tiene 5 días hábiles para subsanar y puede reenviarla.
-4. La **Unidad jurídica** emite dictamen favorable o desfavorable (no factible).
+4. La **Unidad jurídica** revisa los documentos en una ventana de vista previa y emite dictamen
+   favorable o desfavorable (no factible).
 5. El beneficiario consulta en cualquier momento en qué paso va, con su folio.
 
 ## Pantallas
@@ -83,12 +84,15 @@ src/
 │   ├── RegistroConvocatoria.jsx / .css
 │   ├── RecepcionSolicitudes.jsx
 │   ├── EmisionDictamenes.jsx
+│   ├── VistaPreviaDocumento.jsx Ventana emergente para previsualizar PDF en Dictámenes
 │   └── PanelSolicitudes.css     Bandeja compartida por Recepción y Dictámenes
 ├── paginas/
 │   ├── Convocatorias.jsx    Inicio
 │   └── Estatus.jsx          Consulta por folio
 ├── estado/Almacen.jsx       Estado global, acciones y datos de demostración
+├── estado/archivos.js       Archivos subidos por el beneficiario (IndexedDB)
 ├── utilidades/reglas.js     CLABE, superficie, montos, días hábiles y fechas
+├── utilidades/pdfDemo.js    PDF de demostración para las solicitudes de ejemplo
 └── datos/catalogos.js       Programas, delegaciones, conceptos de apoyo y estados
 ```
 
@@ -116,7 +120,9 @@ demostración", al pie de la página, borra los cambios.
 ## Límites del prototipo
 
 - No hay backend ni usuarios: los datos viven en un solo navegador.
-- De los archivos solo se conserva el nombre. El polígono no se lee ni se valida.
+- Los archivos se guardan solo en el navegador donde se registró la solicitud (IndexedDB).
+  Las solicitudes de ejemplo muestran un PDF de demostración. La vista previa solo abre PDF;
+  los demás formatos se descargan. El polígono no se lee ni se valida.
 - Los días hábiles saltan sábados y domingos, pero no días festivos.
 - Quedan fuera el Listado de Incumplidos, el dictamen técnico (SIG), la priorización,
   el Comité, el vivero, el contrato de adhesión, los pagos y la verificación en campo.

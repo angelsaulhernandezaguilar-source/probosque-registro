@@ -129,6 +129,10 @@
 }
 
 .ps-documentos li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   padding: 10px 0;
   border-top: 1px solid var(--linea);
   overflow-wrap: anywhere;
@@ -136,6 +140,27 @@
 
 .ps-documentos li:last-child {
   border-bottom: 1px solid var(--linea);
+}
+
+.ps-documento-nombre {
+  min-width: 0;
+}
+
+.ps-documento-ver {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border: 1px solid var(--pino);
+  border-radius: var(--radio-control);
+  background: transparent;
+  color: var(--pino);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ps-documento-ver:hover {
+  background: var(--musgo);
 }
 
 .ps-vacio {
